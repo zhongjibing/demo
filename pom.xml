@@ -10,9 +10,8 @@
     <url>http://maven.apache.org</url>
 
     <modules>
-        <module>demo-main</module>
         <module>demo-api</module>
-        <module>demo-file</module>
+        <module>demo-main</module>
     </modules>
 
 </project>
