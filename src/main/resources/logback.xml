@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="false" scanPeriod="5 minutes">
+  <property name="app.name" value="${project.name}"/>
+  <property name="logstash.path" value="E:/logs/tomcat/${app.name}"/>
 
-<configuration scan="true" scanPeriod="5 minutes">
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32}:%L - %msg%n</pattern>
+    </encoder>
+  </appender>
 
-    <property name="app.name" value="demo"/>
-    <property name="logstash.path" value="/logs/tomcat/${app.name}"/>
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logstash.path}/${app.name}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logstash.path}/${app.name}.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32}:%L - %msg%n</pattern>
+    </encoder>
+  </appender>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout>
-            <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32}:%L - %msg%n
-            </pattern>
-        </layout>
-    </appender>
+  <root level="INFO">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE"/>
+  </root>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <File>${logstash.path}/${app.name}.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logstash.path}/${app.name}.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32}:%L - %msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <jmxConfigurator/>
-
-    <root level="debug">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
-    </root>
+  <jmxConfigurator/>
 
 </configuration>
